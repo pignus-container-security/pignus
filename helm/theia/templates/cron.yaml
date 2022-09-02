@@ -1,0 +1,59 @@
+{{- if .Values.app.cronEnabled }}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "theia.fullname" . }}
+spec:
+  schedule: {{.Values.app.cronSchedule | quote}}
+  startingDeadlineSeconds: 20
+  successfulJobsHistoryLimit: 2
+  concurrencyPolicy: "Forbid"
+  jobTemplate:
+    spec:
+      completions: 1
+      backoffLimit: 2
+      activeDeadlineSeconds: 420
+      template:
+        metadata:
+          name: {{ .Chart.Name }}
+        spec:
+          serviceAccountName: "theia-monitor"
+          containers:
+          - name: {{ .Chart.Name }}
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            env:
+            - name: PIGNUS_THEIA_KUBE_API
+              valueFrom:
+                configMapKeyRef:
+                  name: pignus
+                  key: pignus_theia_kube_api
+            - name: THEIA_KUBE_TOKEN_FILE
+              value: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+            - name: PIGNUS_THEIA_CLUSTER
+              valueFrom:
+                configMapKeyRef:
+                  name: pignus
+                  key: pignus_theia_cluster
+            - name: PIGNUS_API_UA
+              valueFrom:
+                configMapKeyRef:
+                  name: pignus
+                  key: pignus_api_ua
+            - name: PIGNUS_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: pignus
+                  key: pignus_api_url
+            - name: PIGNUS_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: "pignus"
+                  key:  "key"
+            command:
+            - /bin/sh
+            - -c
+            - /entrypoint.sh
+          restartPolicy: Never
+      backoffLimit: 4
+{{- end }}

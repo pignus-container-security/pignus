@@ -1,0 +1,13 @@
+# Pignus Api
+arrow==1.2.2
+Flask==2.2.2
+glom==20.11.0
+gunicorn==20.0.4
+PyMySQL==1.0.2
+mysql-connector-python==8.0.27
+rich==10.11.0
+sqlescapy==1.0.1
+validators==0.18.2
+
+# Pignus Client
+requests==2.25.1

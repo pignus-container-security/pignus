@@ -1,0 +1,72 @@
+{{- if .Values.app.debug }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "theia.fullname" . }}
+  labels:
+    {{- include "theia.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "theia.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "theia.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: "theia-monitor"
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['sh', '-c', 'tail -f /dev/null']
+          env:
+          - name: PIGNUS_THEIA_KUBE_API
+            valueFrom:
+              configMapKeyRef:
+                name: pignus
+                key: pignus_theia_kube_api
+          - name: THEIA_KUBE_TOKEN_FILE
+            value: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+          - name: PIGNUS_THEIA_CLUSTER
+            valueFrom:
+              configMapKeyRef:
+                name: pignus
+                key: pignus_theia_cluster
+          - name: PIGNUS_API_UA
+            valueFrom:
+              configMapKeyRef:
+                name: pignus
+                key: pignus_api_ua
+          - name: PIGNUS_API_URL
+            valueFrom:
+              configMapKeyRef:
+                name: pignus
+                key: pignus_api_url
+          - name: PIGNUS_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: "pignus"
+                key:  "key"
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+{{- end }}
