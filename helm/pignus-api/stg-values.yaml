@@ -6,13 +6,13 @@ replicaCount: 1
 
 app:
   name: 'pignus-api'
-  debug: True
   database:
-    host: "mysql-dev.pignus-dev.svc.cluster.local"
-    name: "pignus_1"
+    host: "mysql-stg.pignus-stg.svc.cluster.local"
+    name: "pignus_stg"
 
 image:
-  tag: "0.0.1-a"
+  tag: "0.0.1"
+  pullPolicy: IfNotPresent
 
 service:
   type: NodePort

@@ -92,4 +92,9 @@ def date_hours_ago(interval_hours: int) -> datetime:
     return the_date_then.datetime
 
 
+def expire_date():
+    now = arrow.utcnow()
+    future = now.shift(hours=8)
+    return future
+
 # End File: pignus/src/pignus_api/utils/date_utils.py

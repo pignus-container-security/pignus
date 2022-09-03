@@ -4,8 +4,13 @@
 
 global db
 db = {
-    "NAME": "",
+    "conn": "",
+    "cursor": "",
     "HOST": "",
+    "PORT": "",
+    "USER": "",
+    "PASS": "",
+    "NAME": "",
 }
 
 global options

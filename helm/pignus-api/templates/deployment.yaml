@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "demo-app.fullname" . }}
+  name: {{ include "pignus-api.fullname" . }}
   labels:
-    {{- include "demo-app.labels" . | nindent 4 }}
+    {{- include "pignus-api.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "demo-app.selectorLabels" . | nindent 6 }}
+      {{- include "pignus-api.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,48 +18,66 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "demo-app.selectorLabels" . | nindent 8 }}
+        {{- include "pignus-api.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "demo-app.serviceAccountName" . }}
+      serviceAccountName: {{ include "pignus-api.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          # command: ['sh', '-c', 'gunicorn ']
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if not .Values.app.debug }}
+          command: ['sh', '-c', 'tail -f /dev/null']
+          {{- end }}
           env:
+          - name: PIGNUS_DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: pignus-api
+                key: db_host
+          - name: PIGNUS_DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: pignus-api
+                key: db_port
           - name: PIGNUS_DB_USER
             valueFrom:
               configMapKeyRef:
-                name: pignus
-                key: pignus_api_url
+                name: pignus-api
+                key: db_user
+          - name: PIGNUS_DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: pignus-api
+                key: db_name
           - name: PIGNUS_DB_PASS
             valueFrom:
               secretKeyRef:
-                name: "pignus"
-                key:  "key"
+                name: "pignus-api"
+                key:  "db_pass"
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 5001
               protocol: TCP
+          {{- if not .Values.app.debug }}
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: 5001
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: 5001
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -72,4 +90,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-

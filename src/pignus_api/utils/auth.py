@@ -10,6 +10,8 @@ from flask import request, make_response, jsonify
 from werkzeug import security
 
 from pignus_api.models.user import User
+from pignus_api.models.api_key import ApiKey
+from pignus_api.utils import date_utils
 from pignus_shared.utils import log
 
 
@@ -101,6 +103,31 @@ def generate_password_hash(plaintext_password: str) -> str:
     """Generate a password hash.
     """
     return security.generate_password_hash(plaintext_password)
+
+
+def create_user_and_key(user_name: str, role_id: int) -> dict:
+    user = User()
+    user.name = user_name
+    user.role_id = role_id
+    user.client_id = generate_client_id()
+    user.save()
+
+    api_key = ApiKey()
+    api_key.user_id = user.id
+    clear_api_key = generate_api_key()
+    api_key.key = generate_password_hash(clear_api_key)
+
+    api_key.expiration = date_utils.expire_date().datetime
+    api_key.save()
+
+    log.info("Created User %s with client-id: %s api-key: %s. This key will expire in 8 hours." % (
+        user_name,
+        user.client_id,
+        clear_api_key))
+    return {
+        "user": user,
+        "api_key": clear_api_key
+    }
 
 
 # End File: pignus/src/pignus_api/utils/auth.py

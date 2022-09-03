@@ -43,6 +43,7 @@ class ApiKey(Base):
         self.table_name = "api_keys"
         self.entity_name = "api_key"
         self.field_map = FIELD_MAP
+        self.api_writeable_fields = ["user_id", "enabled", "expiration"]
         self.setup()
 
     def __repr__(self):
