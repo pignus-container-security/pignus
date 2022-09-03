@@ -39,7 +39,7 @@ class Migrate:
             - Creating an admin user if one doesnt exist
         """
         log.info("Running migrations on %s" % glow.db["NAME"])
-        # self.create_database()
+        self.create_database()
         db_connection = db.connect()
         glow.db["conn"] = db_connection["conn"]
         glow.db["cursor"] = db_connection["cursor"]
