@@ -53,8 +53,8 @@ class Migrate:
 
     def create_database(self) -> bool:
         """Create the Pignus schema if it does not exist. """
-        conn, cursor = db.connect_mysql_no_db(glow.db)
-        db.create_mysql_database(conn, cursor, glow.db["NAME"])
+        db_connection = db.connect_no_db(glow.db)
+        db.create_mysql_database(db_connection["conn"], db_connection["cursor"])
         return True
 
     def setup(self) -> bool:

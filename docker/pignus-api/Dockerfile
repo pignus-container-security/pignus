@@ -24,8 +24,4 @@ RUN cd /app && pip3 install -r /app/requirements.txt
 RUN cd /app && python3 setup.py build
 RUN cd /app && python3 setup.py install
 
-# Prod-Build: Pignus-Sentry
-RUN apk add docker
-
-
 CMD cd /app/pignus_api && gunicorn app:app --bind 0.0.0.0:5001

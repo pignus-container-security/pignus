@@ -57,11 +57,12 @@ def connect_no_db(server: dict):
         exit(1)
 
 
-def create_mysql_database(conn, cursor, db_name: str):
+def create_mysql_database(conn, cursor):
     """Create the MySQL database."""
-    sql = """CREATE DATABASE IF NOT EXISTS %s""" % db_name
+    sql = """CREATE DATABASE IF NOT EXISTS %s; """ % PIGNUS_DB_NAME
+    log.info(sql)
     cursor.execute(sql)
-    log.info('Created database: %s' % db_name)
+    log.info('Created database: %s' % PIGNUS_DB_NAME)
     return True
 
 # End File: pignus/src/pignus_api/utils/db.py
