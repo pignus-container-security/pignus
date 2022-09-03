@@ -9,7 +9,7 @@ app:
   debug: False
   database:
     host: "mysql-dev.pignus-dev.svc.cluster.local"
-    port: 3006
+    port: 3306
     name: "pignus_1"
     user: "root"
 

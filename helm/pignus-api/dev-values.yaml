@@ -14,3 +14,7 @@ app:
 image:
   tag: "0.0.1"
   pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 8080

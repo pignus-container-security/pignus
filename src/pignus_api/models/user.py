@@ -1,13 +1,10 @@
 """User Model
 
 """
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 
 from pignus_api.collects.api_keys import ApiKeys
 from pignus_api.models.base_entity_meta import BaseEntityMeta
-from pignus_api.models.role import Role
-from pignus_shared.utils import misc
-from pignus_shared.utils import log
 from pignus_shared.utils import xlate
 
 
@@ -47,6 +44,7 @@ class User(BaseEntityMeta):
         self.table_name = "users"
         self.metas = {}
         self.field_map = FIELD_MAP
+        self.api_writeable_fields = ["name", "role_id"]
         self.setup()
 
     def __repr__(self):
@@ -77,37 +75,6 @@ class User(BaseEntityMeta):
                 return True
 
         return False
-
-    def create_random_credentials(self) -> dict:
-        """Create a random password. """
-        ret = {}
-        ret["plaintext_client_id"] = misc.generate_random_digest()[10:30]
-        ret["plaintext_client_secret"] = misc.generate_random_digest()[10:40]
-        ret["hashed_client_secret"] = generate_password_hash(ret["plaintext_password"], "sha256")
-        return ret
-
-    def create_new_user(self, user_email, user_role_slug: str) -> dict:
-        """Create a new user with an email, a role slug name."""
-        role = Role()
-        role.get_by_slug(user_role_slug)
-        if not role:
-            log.error('Cannot create User, cannot find role: "%s""' % user_role_slug)
-            return False
-
-        credentials = self.create_random_credentials()
-
-        self.email = user_email
-        self.role_id = role.id
-        self.client_id = credentials["plaintext_client_id"]
-        self.client_secret = credentials["hashed_client_secret"]
-        # self.api_key = aws.
-
-        return {
-            "user_id": self.id,
-            "client_id": self.client_id,
-            "client_secret": self.client_secret,
-            "api_key": self.api_key,
-        }
 
     def delete(self) -> bool:
         """Delete a User and its ApiKeys."""
