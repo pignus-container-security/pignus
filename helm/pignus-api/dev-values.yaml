@@ -6,28 +6,11 @@ replicaCount: 1
 
 app:
   name: 'pignus-api'
-  debug: False
+  debug: True
   database:
-    host: " mysql-dev.pignus-dev.svc.cluster.local"
+    host: "mysql-dev.pignus-dev.svc.cluster.local"
     name: "pignus_1"
 
-
-
 image:
-  repository: "docker.io"
-  tag: "latest"
+  tag: "0.0.1"
   pullPolicy: IfNotPresent
-
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
-serviceAccount:
-  create: true
-  annotations: {}
-
-podSecurityContext: {}
-
-securityContext: {}
-
-resources: {}
