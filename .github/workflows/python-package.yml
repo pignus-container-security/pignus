@@ -38,6 +38,7 @@ jobs:
     #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Build Packages
       run: |
+        cd src/
         python src/setup.py build
         python src/setup.py install
     - name: Test with pytest
