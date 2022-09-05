@@ -1,0 +1,37 @@
+# Pignus Docker Pignus-API
+# This workflow builds the container, politeauthority/pignus-api
+
+name: Docker Pignus-Api
+
+on:
+  push:
+    branches: [ "main", "develop", "cicd" ]
+  pull_request:
+    branches: [ "main", "develop", "cicd"]
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.who-to-greet }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9"]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Build Container
+      run: |
+        cp -r src/ ./docker/pignus-api/
+        cp -r tests/ ./docker/pignus-api/
+        cd
+        docker build -t politeauthority/pignus-api:0.0.1
