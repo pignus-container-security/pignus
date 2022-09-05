@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pignus-api
+data:
+  db_host: "{{ .Values.pignus_api.database.host }}"
+  db_port: "{{ .Values.pignus_api.database.port }}"
+  db_user: "{{ .Values.pignus_api.database.user }}"
+  db_name: "{{ .Values.pignus_api.database.name }}"

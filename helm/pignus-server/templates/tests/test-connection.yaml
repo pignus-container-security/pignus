@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "pignus-api.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "pignus-api.fullname" . }}:{{ .Values.pignus_api.service.port }}']
   restartPolicy: Never
