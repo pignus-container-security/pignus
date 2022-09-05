@@ -9,15 +9,15 @@ on:
   pull_request:
     branches: [ "main", "develop", "cicd"]
 
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.who-to-greet }}
+# runs:
+#   using: 'docker'
+#   image: 'Dockerfile'
+#   args:
+#     - ${{ inputs.who-to-greet }}
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: docker
     strategy:
       fail-fast: false
       matrix:
