@@ -38,4 +38,4 @@ jobs:
       -
         name: Push Container
         run: |
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/pignus-api:0.0.2-${{ steps.vars.outputs.short_ref }}
+          docker push politeauthority/pignus-api:0.0.2-${{ steps.vars.outputs.short_ref }}
