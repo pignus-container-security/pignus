@@ -5,10 +5,7 @@ name: Docker Pignus-Api
 
 on:
   push:
-    branches: [ "main", "develop", "cicd" ]
-  pull_request:
-    branches: [ "main", "develop", "cicd"]
-
+    branches: [ "main", "develop" ]
 jobs:
   build:
     runs-on: self-hosted
