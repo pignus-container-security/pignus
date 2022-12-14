@@ -27,13 +27,14 @@ jobs:
         run: |
           cp -r ./src ./docker/pignus-api
       -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      -
         name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: ./docker/pignus-api/
-          file: ./docker/pignus-api/Dockerfile
-          tags: politeauthority/pignus-api:0.0.1
-          # push: true
+        run: |
+          cd ./docker/pignus-api/
+          docker build . -t ${{ secrets.DOCKER_HUB_USERNAME }}/pignus-api:0.0.2
+
+        # uses: docker/build-push-action@v3
+        # with:
+        #   context: ./docker/pignus-api/
+        #   file: ./docker/pignus-api/Dockerfile
+        #   tags: politeauthority/pignus-api:0.0.1
+        #   # push: true
