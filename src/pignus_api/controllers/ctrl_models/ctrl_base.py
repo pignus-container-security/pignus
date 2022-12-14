@@ -43,7 +43,7 @@ def post_model(model, entity_id: int = None):
 
     entity = model()
 
-    if not entity.get_by_id(search_id):
+    if not entity.get_by_id(entity_id):
         data["status"] = "Error"
         data["message"] = "Could not find %s ID: %s" % (entity.model_name, entity_id)
         return jsonify(data), 404
@@ -82,18 +82,18 @@ def post_model(model, entity_id: int = None):
     return data
 
 
-def search_id(entity_id_field: str, request_data: dict):
-    """
-    """
-    # Search for the entity by it's ID.
-    search_id = None
-    if entity_id_field in request_data:
-        search_id = None
-        if entity_id:
-            search_id = entity_id
-        elif entity_id_field in request_data:
-            search_id = request_data[entity_id_field]
-    return search_id
+# def search_id(entity_id_field: str, request_data: dict):
+#     """
+#     """
+#     # Search for the entity by it's ID.
+#     search_id = None
+#     if entity_id_field in request_data:
+#         search_id = None
+#         if entity_id:
+#             search_id = entity_id
+#         elif entity_id_field in request_data:
+#             search_id = request_data[entity_id_field]
+#     return search_id
 
 
 def delete_model(model, entity_id: int):
