@@ -25,7 +25,7 @@ jobs:
       -
         name: Copy Files
         run: |
-          cp -r ../../src ./
+          cp -r ./src ./docker/pignus-api
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
