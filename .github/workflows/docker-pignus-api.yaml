@@ -29,7 +29,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./docker/pignus-api/
           file: ./docker/pignus-api/Dockerfile
           # push: true
           tags: politeauthority/pignus-api:0.0.1
