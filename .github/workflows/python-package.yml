@@ -2,29 +2,25 @@
 # This workflow install dependencies, builds, lints and runs unit tests for the Pignus source.
 
 
-name: Pignus-Api Package and Test
+name: Pignus-Api Package
 
 on:
   push:
-    branches: [ "main", "develop", "cicd" ]
   pull_request:
-    branches: [ "main", "develop", "cicd"]
+    branches: [ "main", "develop" ]
 
 jobs:
-  build:
+  build-python:
     runs-on: self-hosted
     strategy:
       fail-fast: false
-      matrix:
-        python-version: ["3.10"]
 
     steps:
-
     - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: "3.10"
 
     - name: Install Dependencies
       run: |
@@ -36,7 +32,7 @@ jobs:
     - name: Linter
       run: |
         cd src/pignus_api
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --show-source --statistics
 
     - name: Build Packages
       run: |
@@ -48,9 +44,12 @@ jobs:
       run: |
         pytest tests/unit/pignus_api
 
+  build-docker:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3
     - name: Build Container
       run: |
         cp -r ./src ./docker/pignus-api
         cd ./docker/pignus-api/
         docker build . -t politeauthority/pignus-api
-
