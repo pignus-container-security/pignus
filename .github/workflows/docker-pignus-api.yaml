@@ -5,35 +5,30 @@ name: Docker Pignus-Api
 
 on:
   push:
-    branches: [ "main", "develop", "cicd" ]
-  pull_request:
-    branches: [ "main", "develop", "cicd"]
-
+    branches: [ "main", "develop" ]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       -
         name: Checkout
         uses: actions/checkout@v3
+
       -
         name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
       -
-        name: Copy Files
+        name: Build Container
         run: |
           cp -r ./src ./docker/pignus-api
+          cd ./docker/pignus-api/
+          docker build . -t politeauthority/pignus-api:0.0.2-${{ github.ref_name }}
+
       -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      -
-        name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: ./docker/pignus-api/
-          file: ./docker/pignus-api/Dockerfile
-          tags: politeauthority/pignus-api:0.0.1
-          # push: true
+        name: Push Container
+        run: |
+          docker push politeauthority/pignus-api:0.0.2-${{ github.ref_name }}
