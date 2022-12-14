@@ -12,5 +12,8 @@ app:
     name: "pignus_1"
 
 image:
-  tag: "0.0.1"
-  pullPolicy: IfNotPresent
+  tag: "0.0.1-a"
+
+service:
+  type: NodePort
+  port: 8080

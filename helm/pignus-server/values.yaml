@@ -4,20 +4,30 @@
 
 replicaCount: 1
 
-app:
+pignus_api:
   name: 'pignus-api'
-  debug: False
+  debug: false
   database:
     host: "mysql-dev.pignus-dev.svc.cluster.local"
-    port: 3006
+    port: 3306
     name: "pignus_1"
     user: "root"
 
-image:
-  repository: "politeauthority/pignus-api"
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  image:
+    repository: "politeauthority/pignus-api"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+
+  service:
+    type: ClusterIP
+    port: 80
+
+pignus_sentry:
+  name: "pignus-sentry"
+  debug: false
+  api_host: "http://192.168.50.50:30866"
+
 
 imagePullSecrets: []
 nameOverride: ""
@@ -44,10 +54,6 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
-service:
-  type: ClusterIP
-  port: 80
 
 ingress:
   enabled: false

@@ -39,8 +39,6 @@ class PignusClient:
         }
 
     def __repr__(self):
-        """
-        """
         return "<PignusClient %s>" % self.api_url
 
     def image_add(self, payload: dict = {}) -> dict:
@@ -89,7 +87,6 @@ class PignusClient:
         elif entity_name == "image_build":
             ret = ImageBuild()
 
-        # import ipdb; ipdb.set_trace()
         ret.build_from_dict(response_json["object"])
 
         return ret

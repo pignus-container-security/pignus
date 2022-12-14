@@ -27,16 +27,16 @@ class PignusSentry:
         """Get ImageBuilds ready for scan."""
         request = self.pigus_api.image_builds_get_for_scan()
         requset_data = request.json()
+        import ipdb; ipdb.set_trace()
         log.info("Found %s ImageBuilds for scan" % requset_data["object_count"])
         log.info("ImagesBuilds")
         return requset_data["objects"]
 
     def scan_build(self, image_build_raw):
         """Scan a single build from the ImageBuild presented."""
-
         image_id = image_build_raw["image_id"]
-        # image_build = ImageBuild()
-        # image_build.build_from_dict(image_build_raw)
+        image_build = ImageBuild()
+        image_build.build_from_dict(image_build_raw)
         image = self.pigus_api.object_get_by_id("image", image_id)
         print(image)
         # import ipdb; ipdb.set_trace()

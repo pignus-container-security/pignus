@@ -31,9 +31,11 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.pignus_api.image.repository }}:{{ .Values.pignus_api.image.tag }}"
+          imagePullPolicy: {{ .Values.pignus_api.image.pullPolicy }}
+          {{- if not .Values.pignus_api.debug }}
           command: ['sh', '-c', 'tail -f /dev/null']
+          {{- end }}
           env:
           - name: PIGNUS_DB_HOST
             valueFrom:
@@ -62,16 +64,18 @@ spec:
                 key:  "db_pass"
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 5001
               protocol: TCP
+          {{- if not .Values.pignus_api.debug }}
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: 5001
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: 5001
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
