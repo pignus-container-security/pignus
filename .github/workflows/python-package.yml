@@ -10,7 +10,7 @@ on:
     branches: [ "main", "develop" ]
 
 jobs:
-  build:
+  build-python:
     runs-on: self-hosted
     strategy:
       fail-fast: false
@@ -43,13 +43,16 @@ jobs:
         python setup.py build
         python setup.py install
 
-    - name: Unit Tests
-      run: |
-        pytest tests/unit/pignus_api
-
+  build-docker:
     - name: Build Container
       run: |
         cp -r ./src ./docker/pignus-api
         cd ./docker/pignus-api/
         docker build . -t politeauthority/pignus-api
+
+  test-python:
+    - name: Unit Tests
+      run: |
+        pytest tests/unit/pignus_api
+
 
