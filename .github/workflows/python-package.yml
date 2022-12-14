@@ -42,6 +42,10 @@ jobs:
         python setup.py build
         python setup.py install
 
+    - name: Unit Tests
+      run: |
+        pytest tests/unit/pignus_api
+
   build-docker:
     runs-on: self-hosted
     steps:
@@ -51,20 +55,3 @@ jobs:
         cp -r ./src ./docker/pignus-api
         cd ./docker/pignus-api/
         docker build . -t politeauthority/pignus-api
-
-  test-python:
-    runs-on: self-hosted
-    steps:
-    - uses: actions/checkout@v3
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install flake8 pytest
-        pip install -r src/requirements-debug.txt
-        pip install -r src/requirements.txt
-
-    - name: Unit Tests
-      run: |
-        pytest tests/unit/pignus_api
-
-
