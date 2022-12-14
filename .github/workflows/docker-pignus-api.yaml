@@ -23,6 +23,10 @@ jobs:
       #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
       #     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       -
+        name: Copy Files
+        run: |
+          cp -r ../../src ./
+      -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       -
@@ -31,7 +35,5 @@ jobs:
         with:
           context: ./docker/pignus-api/
           file: ./docker/pignus-api/Dockerfile
-          run: |
-            cp -r ../../src ./
           tags: politeauthority/pignus-api:0.0.1
           # push: true
