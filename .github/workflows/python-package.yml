@@ -6,9 +6,8 @@ name: Pignus-Api Package and Test
 
 on:
   push:
-    branches: [ "main", "develop", "cicd" ]
   pull_request:
-    branches: [ "main", "develop", "cicd"]
+    branches: [ "main", "develop" ]
 
 jobs:
   build:
