@@ -31,5 +31,7 @@ jobs:
         with:
           context: ./docker/pignus-api/
           file: ./docker/pignus-api/Dockerfile
-          # push: true
+          run: |
+            cp -r ../../src ./
           tags: politeauthority/pignus-api:0.0.1
+          # push: true
