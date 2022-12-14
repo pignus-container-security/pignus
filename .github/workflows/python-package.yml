@@ -2,7 +2,7 @@
 # This workflow install dependencies, builds, lints and runs unit tests for the Pignus source.
 
 
-name: Pignus-Api Package and Test
+name: Pignus-Api Package
 
 on:
   push:
@@ -14,15 +14,13 @@ jobs:
     runs-on: self-hosted
     strategy:
       fail-fast: false
-      matrix:
-        python-version: ["3.10"]
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.10
 
     - name: Install Dependencies
       run: |
@@ -34,7 +32,7 @@ jobs:
     - name: Linter
       run: |
         cd src/pignus_api
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --show-source --statistics
 
     - name: Build Packages
       run: |
