@@ -2,7 +2,7 @@
 # This workflow install dependencies, builds, lints and runs unit tests for the Pignus source.
 
 
-name: Python Package
+name: Pignus-Api Package and Test
 
 on:
   push:
@@ -47,3 +47,10 @@ jobs:
     - name: Unit Tests
       run: |
         pytest tests/unit/pignus_api
+
+    - name: Build Container
+      run: |
+        cp -r ./src ./docker/pignus-api
+        cd ./docker/pignus-api/
+        docker build . -t politeauthority/pignus-api:0.0.2-${{ github.ref_name }}
+
