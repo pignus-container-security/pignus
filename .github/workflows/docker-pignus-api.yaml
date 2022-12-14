@@ -33,9 +33,9 @@ jobs:
         name: Build Container
         run: |
           cd ./docker/pignus-api/
-          docker build . -t ${{ secrets.DOCKER_HUB_USERNAME }}/pignus-api:0.0.2
+          docker build . -t politeauthority/pignus-api:0.0.2-${{ github.ref_name }}
 
       -
         name: Push Container
         run: |
-          docker push politeauthority/pignus-api:0.0.2-${{ steps.vars.outputs.short_ref }}
+          docker push politeauthority/pignus-api:0.0.2-${{ github.ref_name }}
