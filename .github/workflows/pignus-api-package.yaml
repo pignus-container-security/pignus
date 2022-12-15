@@ -1,5 +1,6 @@
 # Pignus Python Package
-# This workflow install dependencies, builds, lints and runs unit tests for the Pignus source.
+# This workflow install dependencies, builds, lints and runs unit tests for the Pignus source,
+# and builds the Docker container.
 
 
 name: Pignus-Api Package
