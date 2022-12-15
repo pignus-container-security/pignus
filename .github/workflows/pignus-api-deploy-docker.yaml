@@ -1,11 +1,11 @@
 # Docker Push Pignus Api
 # This workflow builds the container, politeauthority/pignus-api
 
-name: Docker Push Pignus-Api
+name: Pignus-Api Deploy Docker
 
 on:
   push:
-    branches: [ "main", "staging", "develop" ]
+    branches: [ "main", "staging" ]
 
 jobs:
   build:
