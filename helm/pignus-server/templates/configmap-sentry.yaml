@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: pignus-sentry
-data:
-  api_url: "{{ .Values.pignus_sentry.api_host }}"
