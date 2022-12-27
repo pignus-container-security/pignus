@@ -1,7 +1,7 @@
 # Pignus-Api Deploy Helm
 # This workflow builds the container, politeauthority/pignus-api
 
-name: Pignus-Api Deploy Helm
+name: Pignus-Api Regression
 # on: ['deployment']
 on:
   push:
@@ -17,10 +17,10 @@ jobs:
       uses: 'deliverybot/helm@v1'
       with:
         release: 'nginx'
-        namespace: 'pignus-staging'
+        namespace: 'pignus-cicd'
         chart: 'helm/pignus-api'
         token: '${{ github.token }}'
-        value-files: [ "values.yaml", "staging-values.yaml" ]
+        value-files: ["values.yaml", "staging-values.yaml"]
       env:
         KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
