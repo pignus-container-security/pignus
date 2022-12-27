@@ -47,7 +47,7 @@ def auth_request(f):
 
         user = User()
         if not user.auth(client_id, api_key):
-            log.warning(msg)
+            log.warning("Invalid authentication.")
             return make_response(jsonify(data), 401)
         # Return the user information attached to the token
         return f(**kwargs)
