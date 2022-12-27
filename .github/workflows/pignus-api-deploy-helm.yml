@@ -1,0 +1,37 @@
+# Pignus-Api Deploy Helm
+# This workflow builds the container, politeauthority/pignus-api
+
+name: Pignus-Api Deploy Helm
+
+# on:
+#   push:
+#     branches: [ "main", "staging", "helm-deploy" ]
+
+
+name: Deploy
+on: ['deployment']
+
+jobs:
+  deployment:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: 'Deploy'
+      uses: 'deliverybot/helm@v1'
+      with:
+        release: 'nginx'
+        namespace: 'default'
+        chart: 'app'
+        token: '${{ github.token }}'
+        values: |
+          name: foobar
+        value-files: >-
+        [
+          "values.yaml", 
+          "values.production.yaml"
+        ]
+      env:
+        KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
+
+# .github/workflows/pignus-api-deploy-helm.yml
