@@ -1,0 +1,18 @@
+# Pignus Api
+# Staging values
+
+app:
+  db_host: mysql
+  db_port: "3306"
+  db_name: pignus
+  db_user: root
+  debug: false
+
+image:
+  repository: politeauthority/pignus-api
+  pullPolicy: IfNotPresent
+  tag: "0.0.1-staging"
+
+service:
+  type: LoadBalancer
+  port: 80
