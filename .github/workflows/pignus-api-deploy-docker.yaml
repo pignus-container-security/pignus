@@ -27,9 +27,9 @@ jobs:
         run: |
           cp -r ./src ./docker/pignus-api
           cd ./docker/pignus-api/
-          docker build . -t politeauthority/pignus-api:0.0.2-${{ github.ref_name }}
+          docker build . -t politeauthority/pignus-api:0.0.1-${{ github.ref_name }}
 
       -
         name: Push Container
         run: |
-          docker push politeauthority/pignus-api:0.0.2-${{ github.ref_name }}
+          docker push politeauthority/pignus-api:0.0.1-${{ github.ref_name }}
