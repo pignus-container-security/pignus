@@ -16,3 +16,5 @@ image:
 service:
   type: LoadBalancer
   port: 80
+
+# End File: pignus/helm/pignus-api/values-staging.yaml
