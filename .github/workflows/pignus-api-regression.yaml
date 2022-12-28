@@ -21,7 +21,7 @@ jobs:
         chart: 'helm/pignus-api'
         helm: 'helm3'
         token: '${{ github.token }}'
-        value-files: '["values.yaml", "values-regression.yaml"]'
+        value-files: '["helm/pignus-api/values.yaml", "helm/pignus-api/values-regression.yaml"]'
       env:
         KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
