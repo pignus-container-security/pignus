@@ -1,5 +1,5 @@
 # Pignus Api
-# Staging values
+# Regression values
 
 image:
   repository: politeauthority/pignus-api
@@ -10,4 +10,4 @@ service:
   type: LoadBalancer
   port: 80
 
-# End File: pignus/helm/pignus-api/values-staging.yaml
+# End File: pignus/helm/pignus-api/values-regression.yaml

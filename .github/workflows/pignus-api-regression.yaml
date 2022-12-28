@@ -16,11 +16,11 @@ jobs:
     - name: 'Deploy'
       uses: 'deliverybot/helm@v1'
       with:
-        release: 'nginx'
+        release: 'pignus-cicd'
         namespace: 'pignus-cicd'
         chart: 'helm/pignus-api'
         token: '${{ github.token }}'
-        value-files: ["values.yaml", "staging-values.yaml"]
+        value-files: '["values.yaml", "values-regressionmv.yaml"]'
       env:
         KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
