@@ -10,7 +10,7 @@ name: Pignus-Api Package
 on:
   push:
   pull_request:
-    branches: ["main", "develop"]
+    branches: ["main", "develop", "helm-deploy"]
 
 jobs:
   build-python:
