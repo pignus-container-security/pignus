@@ -46,13 +46,6 @@ jobs:
       - name: Unit Tests
         run: pytest tests/unit/pignus_api
 
-  build-docker:
-    runs-on: self-hosted
-    strategy:
-      fail-fast: true
-    steps:
-      - uses: actions/checkout@v3
-
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -70,5 +63,20 @@ jobs:
         run: |
           docker push politeauthority/pignus-api:${{ github.sha }}
           docker push politeauthority/pignus-api:${{ github.ref_name }}
+
+    - name: Deploy Regression Tests
+      uses: 'glopezep/helm@v1.7.1'
+      with:
+        release: 'pignus-cicd'
+        namespace: 'pignus-cicd'
+        chart: 'helm/pignus-api'
+        helm: 'helm3'
+        token: '${{ github.token }}'
+        atomic: false
+        values: |
+          image.tag: '${{ github.sha }}'
+        value-files: '["helm/pignus-api/values.yaml", "helm/pignus-api/values-regression.yaml"]'
+      env:
+        KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
 # End File: pignus/.github/workflows/pignus-api-package.yaml
