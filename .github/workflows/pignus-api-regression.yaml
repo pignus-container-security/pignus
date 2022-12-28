@@ -23,6 +23,7 @@ jobs:
         chart: 'helm/pignus-api'
         helm: 'helm3'
         token: '${{ github.token }}'
+        atomic: false
         values: |
           image.tag: '${{ github.sha }}'
         value-files: '["helm/pignus-api/values.yaml", "helm/pignus-api/values-regression.yaml"]'
