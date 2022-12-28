@@ -15,11 +15,14 @@ from pignus_api.controllers.ctrl_collections.ctrl_images import ctrl_images
 from pignus_api.controllers.ctrl_collections.ctrl_image_builds import ctrl_image_builds
 from pignus_api.controllers.ctrl_collections.ctrl_options import ctrl_options
 from pignus_api.controllers.ctrl_collections.ctrl_users import ctrl_users
+from pignus_api.migrate import Migrate
 from pignus_api.utils import db
 from pignus_api.utils import glow
 
+Migrate().run()
 app = Flask(__name__)
 app.config.update(DEBUG=True)
+
 
 
 def register_blueprints(app: Flask):

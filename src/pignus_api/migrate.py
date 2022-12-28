@@ -7,7 +7,6 @@ import os
 from pignus_api.models.option import Option
 from pignus_api.models.scanner import Scanner
 from pignus_api.models.migration import Migration as MigrationModel
-
 from pignus_api.utils import auth
 from pignus_api.utils import glow
 from pignus_api.utils import misc_server
@@ -201,7 +200,7 @@ class Migrate:
         return True
 
     def create_scanners(self) -> bool:
-        """Create the default scanners. """
+        """Create the default scanners."""
         log.info("Creating Scanners")
         scanners = {
             "Trivy": {
