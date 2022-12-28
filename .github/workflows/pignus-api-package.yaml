@@ -45,12 +45,17 @@ jobs:
       run: |
         pytest tests/unit/pignus_api
 
-  build-docker:
-    runs-on: self-hosted
-    steps:
     - uses: actions/checkout@v3
     - name: Build Container
       run: |
         cp -r ./src ./docker/pignus-api
         cd ./docker/pignus-api/
-        docker build . -t politeauthority/pignus-api
+        docker build . -t politeauthority/pignus-api:${GITHUB_SHA}
+        docker tag politeauthority/pignus-api:${ github.ref_name } politeauthority/pignus-api:${ GITHUB_SHA }
+
+      - name: Push Container
+        run: |
+          docker push politeauthority/pignus-api:${GITHUB_SHA}
+          docker push politeauthority/pignus-api:${ github.ref_name }
+
+# End File: pignus/.github/workflows/pignus-api-package.yaml
