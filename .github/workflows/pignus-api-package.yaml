@@ -42,8 +42,7 @@ jobs:
         python setup.py install
 
     - name: Unit Tests
-      run: |
-        pytest tests/unit/pignus_api
+      run: pytest tests/unit/pignus_api
 
     - name: Build Container
       run: |
