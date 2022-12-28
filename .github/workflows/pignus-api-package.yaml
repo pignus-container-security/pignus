@@ -62,6 +62,6 @@ jobs:
       - name: Push Container
         run: |
           docker push politeauthority/pignus-api:${GITHUB_SHA}
-          docker push politeauthority/pignus-api:${ github.ref_name }
+          docker push politeauthority/pignus-api:$${{ github.ref_name }}
 
 # End File: pignus/.github/workflows/pignus-api-package.yaml
