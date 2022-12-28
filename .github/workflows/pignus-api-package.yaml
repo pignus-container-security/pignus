@@ -16,7 +16,7 @@ jobs:
   build-python:
     runs-on: self-hosted
     strategy:
-      fail-fast: false
+      fail-fast: true
 
     steps:
       - uses: actions/checkout@v3
@@ -47,6 +47,11 @@ jobs:
         run: pytest tests/unit/pignus_api
 
   build-docker:
+    runs-on: self-hosted
+    strategy:
+      fail-fast: true
+
+    steps:
       - name: Build Container
         run: |
           cp -r ./src ./docker/pignus-api
