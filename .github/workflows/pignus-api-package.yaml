@@ -46,6 +46,7 @@ jobs:
       - name: Unit Tests
         run: pytest tests/unit/pignus_api
 
+  build-docker:
       - name: Build Container
         run: |
           cp -r ./src ./docker/pignus-api
