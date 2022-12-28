@@ -46,7 +46,7 @@ jobs:
         pytest tests/unit/pignus_api
 
     - uses: actions/checkout@v3
-    - name: Build Container
+      name: Build Container
       run: |
         cp -r ./src ./docker/pignus-api
         cd ./docker/pignus-api/
