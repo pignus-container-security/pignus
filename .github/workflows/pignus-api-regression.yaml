@@ -19,6 +19,7 @@ jobs:
         release: 'pignus-cicd'
         namespace: 'pignus-cicd'
         chart: 'helm/pignus-api'
+        helm: 'helm3'
         token: '${{ github.token }}'
         value-files: '["values.yaml", "values-regressionmv.yaml"]'
       env:
