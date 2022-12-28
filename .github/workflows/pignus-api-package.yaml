@@ -56,12 +56,12 @@ jobs:
         run: |
           cp -r ./src ./docker/pignus-api
           cd ./docker/pignus-api/
-          docker build . -t politeauthority/pignus-api:${{GITHUB_SHA}}
-          docker tag politeauthority/pignus-api:${{GITHUB_SHA}} politeauthority/pignus-api:${{ github.ref_name }}
+          docker build . -t politeauthority/pignus-api:${{ github.sha }}
+          docker tag politeauthority/pignus-api:${{ github.sha }} politeauthority/pignus-api:${{ github.ref_name }}
 
       - name: Push Container
         run: |
-          docker push politeauthority/pignus-api:${GITHUB_SHA}
+          docker push politeauthority/pignus-api:${{ github.sha }}
           docker push politeauthority/pignus-api:${{ github.ref_name }}
 
 # End File: pignus/.github/workflows/pignus-api-package.yaml
