@@ -50,7 +50,7 @@ jobs:
       - name: Build Container
         run: |
           cp -r ./tests/regression ./docker/pignus-test
-          cd ./docker/pignus-api/
+          cd ./docker/pignus-test/
           docker build . -t politeauthority/pignus-test:latest
 
       - name: Push Container
