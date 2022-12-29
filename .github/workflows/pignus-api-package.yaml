@@ -47,6 +47,7 @@ jobs:
         run: pytest tests/unit/pignus_api
 
   build-docker:
+  - uses: actions/checkout@v3
     runs-on: self-hosted
     needs: build-python
     strategy:
@@ -72,6 +73,7 @@ jobs:
           docker push politeauthority/pignus-api:${{ github.ref_name }}
 
   regression-test:
+  - uses: actions/checkout@v3
     runs-on: self-hosted
     needs: build-docker
     strategy:
