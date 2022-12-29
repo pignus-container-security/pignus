@@ -82,7 +82,6 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
-      - name: Deploy Regression Tests
         uses: 'glopezep/helm@v1.7.1'
         with:
           release: 'pignus-cicd'
@@ -107,5 +106,6 @@ jobs:
         env:
           PIGNUS_API_URL: "192.168.50.83"
           PIGNUS_API_CLIENT_ID: "test"
+        run: cd /tests/regression/ && pytest
 
 # End File: pignus/.github/workflows/pignus-api.yaml
