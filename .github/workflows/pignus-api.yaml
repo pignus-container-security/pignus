@@ -1,16 +1,18 @@
-# Pignus Python Package
-# This workflow install dependencies, builds, lints and runs unit
-# tests for the Pignus source,
-# and builds the Docker container.
+# Pignus Api
+# This workflow controls the following
+# - Builds the Python Pignus package
+# - Lints the Python Pignus package
+# - Tests the Python Pignus package
+# - Builds the Pignus-Api Docker container
+# - 
 
 ---
 
-name: Pignus-Api Package
+name: Pignus-Api
 
 on:
-  push:
   pull_request:
-    branches: ["main", "develop", "helm-deploy"]
+    branches: ["main", "staging", "develop"]
 
 jobs:
   build-python:
@@ -99,4 +101,9 @@ jobs:
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
-# End File: pignus/.github/workflows/pignus-api-package.yaml
+      - uses: penDerGraft/run-k8s-job
+        with:
+          kubeconfig-file: '${{ secrets.KUBECONFIG }}'        
+          image: 'penDerGraft/integration-test-job'    
+
+# End File: pignus/.github/workflows/pignus-api.yaml
