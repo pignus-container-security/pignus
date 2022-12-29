@@ -51,7 +51,7 @@ jobs:
     needs: build-python
     strategy:
       fail-fast: true
-    
+
     steps:
       - uses: actions/checkout@v3
       - name: Login to Docker Hub
@@ -91,7 +91,11 @@ jobs:
           atomic: false
           value-files: '["helm/pignus-api/values.yaml", "helm/pignus-api/values-regression.yaml"]'
           values: |
-            image.tag: '${{ github.sha }}'
+            {
+              "image": {
+                "tag": "${{ github.sha }}"
+              }
+            }
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
