@@ -8,6 +8,7 @@ ENV PIGNUS_API_URL=""
 ENV PIGNUS_API_CLIENT_ID=""
 ENV PIGNUS_API_KEY=""
 
+
 ADD regression /tests
 
 RUN apk add bash vim
