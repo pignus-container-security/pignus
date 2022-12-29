@@ -13,7 +13,18 @@ on:
     branches: ["main", "develop", "helm-deploy"]
 
 jobs:
-  build:
+  lint:
+    runs-on: self-hosted
+    strategy:
+      fail-fast: true
+    steps:
+      - uses: actions/checkout@v3
+      - name: Linter
+        run: |
+          cd src/pignus_api
+          flake8 . --count --show-source --statistics
+
+  build-python:
     runs-on: self-hosted
     strategy:
       fail-fast: true
@@ -32,20 +43,27 @@ jobs:
           pip install -r src/requirements-debug.txt
           pip install -r src/requirements.txt
 
-      - name: Linter
-        run: |
-          cd src/pignus_api
-          flake8 . --count --show-source --statistics
-
       - name: Build Packages
         run: |
           cd src/
           python setup.py build
           python setup.py install
 
+  unit-test:
+    runs-on: self-hosted
+    strategy:
+      fail-fast: true
+
+    steps:
       - name: Unit Tests
         run: pytest tests/unit/pignus_api
 
+  build-docker:
+    runs-on: self-hosted
+    strategy:
+      fail-fast: true
+    
+    steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -64,6 +82,12 @@ jobs:
           docker push politeauthority/pignus-api:${{ github.sha }}
           docker push politeauthority/pignus-api:${{ github.ref_name }}
 
+  regression-test:
+    runs-on: self-hosted
+    strategy:
+      fail-fast: true
+    
+    steps:
       - name: Deploy Regression Tests
         uses: 'glopezep/helm@v1.7.1'
         with:
