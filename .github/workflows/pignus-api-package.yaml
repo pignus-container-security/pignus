@@ -13,20 +13,8 @@ on:
     branches: ["main", "develop", "helm-deploy"]
 
 jobs:
-  lint:
-    runs-on: self-hosted
-    strategy:
-      fail-fast: true
-    steps:
-      - uses: actions/checkout@v3
-      - name: Linter
-        run: |
-          cd src/pignus_api
-          flake8 . --count --show-source --statistics
-
   build-python:
     runs-on: self-hosted
-    needs: lint
     strategy:
       fail-fast: true
 
@@ -49,6 +37,11 @@ jobs:
           cd src/
           python setup.py build
           python setup.py install
+
+      - name: Linter
+        run: |
+          cd src/pignus_api
+          flake8 . --count --show-source --statistics
 
       - name: Unit Tests
         run: pytest tests/unit/pignus_api
