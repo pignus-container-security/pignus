@@ -27,7 +27,7 @@ class TestApiKey:
             "method": "GET",
             "url": "%s/images" % PIGNUS_API_URL,
         }
-        
+
         response = requests.request(**request_args)
         assert response.status_code == 200
         response_json = response.json()
