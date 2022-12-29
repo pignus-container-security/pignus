@@ -79,7 +79,7 @@ jobs:
       fail-fast: true
     
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       - name: Deploy Regression Tests
         uses: 'glopezep/helm@v1.7.1'
         with:
