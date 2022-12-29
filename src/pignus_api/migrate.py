@@ -247,6 +247,20 @@ class Migrate:
             GRANT ALL PRIVILEGES ON %(pignus_db_name)s . * TO '%(pignus_app_user)s'@'%'; """
         print(sql)
 
+    def create_new_admin_user(self):
+        """Method for handling a locked out admin. Generating a new user, client_id, and api_key.
+        """
+        users = Users().get_pignus_admin_users()
+        new_admin = User()
+        if len(users) > 0:
+            for user in users:
+                user.disable()
+        self.create_user()
+        return True
+
+
+
+
     # def create_test_data(self) -> bool:
     #     """Creates some basic data for testing."""
     #     fakes = [
@@ -271,6 +285,10 @@ class Migrate:
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "password-reset":
+        Migrate().create_new_admin_user()
+        exit()
+
     Migrate().run()
 
 
