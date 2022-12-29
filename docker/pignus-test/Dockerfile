@@ -6,6 +6,7 @@ FROM politeauthority/pignus-api:latest
 
 ENV PIGNUS_API_URL=""
 ENV PIGNUS_API_CLIENT_ID=""
+ENV PIGNUS_API_KEY=""
 
 ADD regression /tests
 
