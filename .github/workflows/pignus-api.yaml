@@ -101,9 +101,11 @@ jobs:
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
-      # - uses: penDerGraft/run-k8s-job
-      #   with:
-      #     kubeconfig-file: '${{ secrets.KUBECONFIG }}'        
-      #     image: 'penDerGraft/integration-test-job'    
+      - name: Regression Test
+        container:
+        image: politeauthority/pignus-test:latest
+        env:
+          PIGNUS_API_URL: "192.168.50.83"
+          PIGNUS_API_CLIENT_ID: "test"
 
 # End File: pignus/.github/workflows/pignus-api.yaml
