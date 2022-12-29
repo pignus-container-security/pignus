@@ -101,9 +101,9 @@ jobs:
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
-      - uses: penDerGraft/run-k8s-job
-        with:
-          kubeconfig-file: '${{ secrets.KUBECONFIG }}'        
-          image: 'penDerGraft/integration-test-job'    
+      # - uses: penDerGraft/run-k8s-job
+      #   with:
+      #     kubeconfig-file: '${{ secrets.KUBECONFIG }}'        
+      #     image: 'penDerGraft/integration-test-job'    
 
 # End File: pignus/.github/workflows/pignus-api.yaml

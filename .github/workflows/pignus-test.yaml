@@ -3,7 +3,7 @@
 
 ---
 
-name: Pignus-Api
+name: Pignus-Test
 
 on:
   push:
