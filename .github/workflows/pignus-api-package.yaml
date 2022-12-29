@@ -13,7 +13,7 @@ on:
     branches: ["main", "develop", "helm-deploy"]
 
 jobs:
-  build-python:
+  build-p:
     runs-on: self-hosted
     strategy:
       fail-fast: true
@@ -73,9 +73,9 @@ jobs:
         helm: 'helm3'
         token: '${{ github.token }}'
         atomic: false
+        value-files: '["helm/pignus-api/values.yaml", "helm/pignus-api/values-regression.yaml"]'
         values: |
           image.tag: '${{ github.sha }}'
-        value-files: '["helm/pignus-api/values.yaml", "helm/pignus-api/values-regression.yaml"]'
       env:
         KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
