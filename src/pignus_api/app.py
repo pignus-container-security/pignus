@@ -35,7 +35,7 @@ def register_blueprints(app: Flask):
     app.register_blueprint(ctrl_image)
     app.register_blueprint(ctrl_image_build)
     app.register_blueprint(ctrl_user)
-    
+
     return True
 
 
