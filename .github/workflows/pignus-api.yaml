@@ -11,8 +11,8 @@
 name: Pignus-Api
 
 on:
-  # push:
-  #   branches: ["regression-test"]
+  push:
+    branches: ["regression-test"]
   pull_request:
     branches: ["main", "staging"]
 
@@ -76,7 +76,7 @@ jobs:
           docker push politeauthority/pignus-api:${{ github.sha }}
           docker push politeauthority/pignus-api:${{ github.ref_name }}
 
-  regression-test:
+  deploy-test:
     runs-on: self-hosted
     needs: build-docker
     strategy:
@@ -101,14 +101,16 @@ jobs:
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
-      # - name: Regression Test
-      #   uses: actions/checkout@v3
-      #   container:
-      #     image: politeauthority/pignus-test:latest
-      #     env:
-      #       PIGNUS_API_URL: "${{ secrets.REGRESSION_PIGNUS_API_URL }}"
-      #       PIGNUS_API_CLIENT_ID: "${{ secrets.REGRESSION_PIGNUS_API_CLIENT_ID }}"
-      #       PIGNUS_API_KEY: "${{ secrets.REGRESSION_PIGNUS_API_KEY }}"
-      #     run: cd /tests/regression/ && pytest
+  run-regression:
+    runs-on: self-hosted
+    container:
+      image: politeauthority/pignus-test:latest
+      env:
+        PIGNUS_API_URL: "${{ secrets.REGRESSION_PIGNUS_API_URL }}"
+        PIGNUS_API_CLIENT_ID: "${{ secrets.REGRESSION_PIGNUS_API_CLIENT_ID }}"
+        PIGNUS_API_KEY: "${{ secrets.REGRESSION_PIGNUS_API_KEY }}"
+    steps:
+      - name: Regression Pignus-Api
+        run: cd /tests && pytest
 
 # End File: pignus/.github/workflows/pignus-api.yaml
