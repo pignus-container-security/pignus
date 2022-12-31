@@ -16,7 +16,7 @@ HEADERS = {
 }
 
 
-class TestApiKey:
+class TestApiUsers:
 
     def test__images_get(self):
         """Tests the Users collections through the Pignus Api
@@ -38,4 +38,4 @@ class TestApiKey:
         assert response_json["object_count"] > 0
 
 
-# End File: pignus/tests/regression/pignus_api/test_ctrl_images.py
+# End File: pignus/tests/regression/pignus_api/test_ctrl_users.py
