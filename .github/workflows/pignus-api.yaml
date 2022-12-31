@@ -83,7 +83,6 @@ jobs:
       fail-fast: true
     
     steps:
-      - uses: actions/checkout@v3
         uses: 'glopezep/helm@v1.7.1'
         with:
           release: 'pignus-cicd'
