@@ -43,6 +43,11 @@ def index():
         "info": "Pignus Api",
         "version": "0.0.1"
     }
+    app.logger.debug('this is a DEBUG message')
+    app.logger.info('this is an INFO message')
+    app.logger.warning('this is a WARNING message')
+    app.logger.error('this is an ERROR message')
+    app.logger.critical('this is a CRITICAL message')
     return jsonify(data)
 
 
@@ -65,6 +70,7 @@ elif __name__ != '__main__':
     gunicorn_logger = logging.getLogger('gunicorn.info')
     app.logger.handlers = gunicorn_logger.handlers
     app.logger.setLevel(gunicorn_logger.level)
+    app.logger.info("Logging has been enabled")
 
 
 # End File: pignus/src/pignus_api/app.py
