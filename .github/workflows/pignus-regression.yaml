@@ -19,7 +19,7 @@ jobs:
         PIGNUS_API_CLIENT_ID: "${{ secrets.REGRESSION_PIGNUS_API_CLIENT_ID }}"
         PIGNUS_API_KEY: "${{ secrets.REGRESSION_PIGNUS_API_KEY }}"
     steps:
-      - name: Check for dockerenv file
+      - name: Regression Pignus-Api
         run: cd /tests && pytest
 
 # End File: pignus/.github/workflows/pignus-regression.yaml
