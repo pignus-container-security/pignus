@@ -30,6 +30,19 @@ class TestAuth:
         response = requests.request(**request_args)
         assert response.status_code == 200
 
+    def test__api_key(self):
+        """Tests the ApiKey model of Pignus Api
+        GET /api-key/1
+        """
+        request_args = {
+            "headers": HEADERS,
+            "method": "GET",
+            "url": "%s/api-key/1" % PIGNUS_API_URL,
+        }
+
+        response = requests.request(**request_args)
+        assert response.status_code == 401
+
     def test__api_keys(self):
         """Tests the ApiKeys collections of Pignus Api
         GET /api-keys

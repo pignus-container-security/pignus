@@ -7,6 +7,7 @@ import logging
 from flask import Flask, jsonify
 
 from pignus_api.collects.options import Options
+from pignus_api.controllers.ctrl_models.ctrl_api_key import ctrl_api_key
 from pignus_api.controllers.ctrl_models.ctrl_image import ctrl_image
 from pignus_api.controllers.ctrl_models.ctrl_image_build import ctrl_image_build
 from pignus_api.controllers.ctrl_models.ctrl_user import ctrl_user
@@ -34,6 +35,7 @@ def register_blueprints(app: Flask):
     app.register_blueprint(ctrl_options)
     app.register_blueprint(ctrl_users)
 
+    app.register_blueprint(ctrl_api_key)
     app.register_blueprint(ctrl_image)
     app.register_blueprint(ctrl_image_build)
     app.register_blueprint(ctrl_user)
