@@ -11,7 +11,6 @@ on:
 jobs:
   build-docker:
     runs-on: self-hosted
-    needs: build-python
     strategy:
       fail-fast: true
 
@@ -23,20 +22,18 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build Dev Container
+      - name: Build Container
         run: |
           cp -r ./src ./docker/pignus-api
           cp -r ./tests ./docker/pignus-api
           cd ./docker/pignus-api/
           docker build . -t politeauthority/pignus-api:${{ github.sha }}
-          docker tag politeauthority/pignus-api:${{ github.sha }} politeauthority/pignus-api:${{ github.ref_name }}
-          docker tag politeauthority/pignus-api:${{ github.sha }} politeauthority/pignus-api:${{ secrets.PIGNUS_VERSION }}-{{ github.ref_name }}
+          docker tag politeauthority/pignus-api:${{ github.sha }} politeauthority/pignus-api:${{ secrets.PIGNUS_VERSION }}-staging
 
       - name: Push Container
         run: |
           docker push politeauthority/pignus-api:${{ github.sha }}
-          docker push politeauthority/pignus-api:${{ github.ref_name }}
-          docker push politeauthority/pignus-api:${{ secrets.PIGNUS_VERSION }}-{{ github.ref_name }}
+          docker push politeauthority/pignus-api:${{ secrets.PIGNUS_VERSION }}-staging
 
   deploy-staging:
     runs-on: self-hosted
@@ -58,10 +55,10 @@ jobs:
           values: |
             {
               "image": {
-                "tag": "${{ github.sha }}"
+                "tag": : "{{ secrets.PIGNUS_VERSION }}-staging"
               }
             }
         env:
-          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
+          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG_STAGING }}'
 
 # End File: pignus/.github/workflows/pignus-api-deploy-staging.yaml
