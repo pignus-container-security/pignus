@@ -1,4 +1,4 @@
-# Pignus Api
+# Pignus Api Test
 # This workflow controls the following
 # - Builds the Python Pignus package
 # - Lints the Python Pignus package
@@ -8,7 +8,7 @@
 
 ---
 
-name: Pignus-Api
+name: Pignus-Api-Test
 
 on:
   push:
@@ -66,9 +66,9 @@ jobs:
 
       - name: Build Container
         run: |
-          cp -r ./src ./docker/pignus-api
-          cp -r ./tests ./docker/pignus-api
-          cd ./docker/pignus-api/
+          cp -r ./src ./docker/pignus-api-dev
+          cp -r ./tests ./docker/pignus-api-dev
+          cd ./docker/pignus-api-dev/
           docker build . -t politeauthority/pignus-api-dev:${{ github.sha }}
           docker tag politeauthority/pignus-api-dev:${{ github.sha }} politeauthority/pignus-api-dev:${{ github.ref_name }}
           docker tag politeauthority/pignus-api-dev:${{ github.sha }} politeauthority/pignus-api-dev:${{ secrets.PIGNUS_VERSION }}-{{ github.ref_name }}
