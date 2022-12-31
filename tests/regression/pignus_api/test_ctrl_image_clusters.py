@@ -1,5 +1,5 @@
 """Regression Test CTRL ApiKeys
-Checks that all routes on /api-keys are working properly.
+Checks that all routes on /images are working properly.
 
 """
 
@@ -16,24 +16,24 @@ HEADERS = {
 }
 
 
-class TestApiApiKeys:
+class TestImageClusters:
 
-    def test__api_keys_get(self):
-        """Tests the ApiKeys collections through the Pignus Api
-        GET /api-keys
+    def test__image_cluster_get(self):
+        """Tests the ImageClusters collections through the Pignus Api
+        GET /image-clusters
         """
         request_args = {
             "headers": HEADERS,
             "method": "GET",
-            "url": "%s/api-keys" % PIGNUS_API_URL,
+            "url": "%s/image-clusters" % PIGNUS_API_URL,
         }
 
         response = requests.request(**request_args)
         assert response.status_code == 200
         response_json = response.json()
-        assert response_json["object_type"] == "api_key"
+        assert response_json["object_type"] == "image_cluster"
         assert "objects" in response_json
         assert "object_count" in response_json
 
 
-# End File: pignus/tests/regression/pignus_api/test_ctrl_images.py
+# End File: pignus/tests/regression/pignus_api/test_ctrl_image_clusters.py
