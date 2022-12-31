@@ -12,6 +12,7 @@ from pignus_api.controllers.ctrl_models.ctrl_image_build import ctrl_image_build
 from pignus_api.controllers.ctrl_models.ctrl_user import ctrl_user
 from pignus_api.controllers.ctrl_collections.ctrl_api_keys import ctrl_api_keys
 from pignus_api.controllers.ctrl_collections.ctrl_images import ctrl_images
+from pignus_api.controllers.ctrl_collections.ctrl_image_clusters import ctrl_image_clusters
 from pignus_api.controllers.ctrl_collections.ctrl_image_builds import ctrl_image_builds
 from pignus_api.controllers.ctrl_collections.ctrl_options import ctrl_options
 from pignus_api.controllers.ctrl_collections.ctrl_users import ctrl_users
@@ -29,6 +30,7 @@ def register_blueprints(app: Flask):
     app.register_blueprint(ctrl_api_keys)
     app.register_blueprint(ctrl_images)
     app.register_blueprint(ctrl_image_builds)
+    app.register_blueprint(ctrl_image_clusters)
     app.register_blueprint(ctrl_options)
     app.register_blueprint(ctrl_users)
 
