@@ -12,6 +12,7 @@ name: Pignus-Regression
 
 on:
   push:
+    branches: "regression-test"
 
 jobs:
   container-test-job:

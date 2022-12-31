@@ -11,8 +11,8 @@
 name: Pignus-Api
 
 on:
-  push:
-    branches: ["regression-test"]
+  # push:
+  #   branches: ["regression-test"]
   pull_request:
     branches: ["main", "staging"]
 
