@@ -16,7 +16,7 @@ HEADERS = {
 }
 
 
-class TestApiUsers:
+class TestApiUser:
 
     def test__user_get(self):
         """Tests the User model through the Pignus Api
@@ -34,6 +34,13 @@ class TestApiUsers:
         assert response.status_code == 200
         response_json = response.json()
         assert response_json["object_type"] == "user"
+        assert response_json["object"]["id"] == user["id"]
+        assert response_json["object"]["client_id"]
+        assert response_json["object"]["created_ts"]
+        assert response_json["object"]["name"]
+        assert response_json["object"]["role_id"]
+        assert response_json["object"]["updated_ts"]
+        assert response_json["status"] == "Success"
 
     def _get_all_users(self):
         request_args = {
