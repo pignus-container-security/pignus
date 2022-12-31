@@ -69,12 +69,10 @@ jobs:
           cp -r ./tests ./docker/pignus-api-dev
           cd ./docker/pignus-api-dev/
           docker build . -t politeauthority/pignus-api-dev:${{ github.sha }}
-          docker tag politeauthority/pignus-api-dev:${{ github.sha }} politeauthority/pignus-api-dev:${{ github.ref_name }}
 
       - name: Push Container
         run: |
           docker push politeauthority/pignus-api-dev:${{ github.sha }}
-          docker push politeauthority/pignus-api-dev:${{ github.ref_name }}
 
   deploy-test:
     runs-on: self-hosted
