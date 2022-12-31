@@ -20,7 +20,7 @@ def index():
 
     data = {
         "objects": objectz,
-        "object_type": "options",
+        "object_type": "option",
         "object_count": len(objectz)
     }
     return jsonify(data)
