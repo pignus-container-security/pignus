@@ -6,7 +6,7 @@ name: Pignus-Api-Deploy-Staging
 
 on:
   push:
-    branches: ["staging", "pignus-api-container"]
+    branches: ["staging"]
 
 jobs:
   build-docker:
