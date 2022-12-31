@@ -3,6 +3,7 @@ Creates all the SQL models needed for Pignus.
 
 """
 import os
+import sys
 
 from pignus_api.collects.users import Users
 from pignus_api.models.option import Option
@@ -250,9 +251,9 @@ class Migrate:
         """Method for handling a locked out admin. Generating a new user, client_id, and api_key.
         """
         users = Users().get_pignus_admin_users()
-        new_admin = User()
         if len(users) > 0:
             for user in users:
+                log.info("Disabled %s" % user)
                 user.disable()
         self.create_user()
         return True
