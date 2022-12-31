@@ -2,7 +2,7 @@
 # This container runs the Pignus web api
 #
 
-FROM python:3.9-alpine3.16
+FROM python:3.10-alpine3.16
 
 ENV PIGNUS_DB_HOST=""
 ENV PIGNUS_DB_PORT="3306"
@@ -12,9 +12,10 @@ ENV PIGNUS_DB_PASS=""
 
 ADD src/ /app
 
-# Dev-Build: Pignus-Api,Pignus-Sentry
+# Dev-Build: Pignus-Api, Pignus-Sentry
 RUN apk add bash vim mysql-client
 ADD pignus-build /bin/
+ADD tests/ /tests
 RUN cd /app && pip3 install -r /app/requirements-debug.txt
 
 

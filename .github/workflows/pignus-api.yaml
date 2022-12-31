@@ -14,7 +14,7 @@ on:
   push:
     branches: ["regression-test"]
   pull_request:
-    branches: ["main", "staging"]
+    branches: "staging"
 
 jobs:
   build-python:
@@ -67,14 +67,17 @@ jobs:
       - name: Build Container
         run: |
           cp -r ./src ./docker/pignus-api
+          cp -r ./tests ./docker/pignus-api
           cd ./docker/pignus-api/
           docker build . -t politeauthority/pignus-api-dev:${{ github.sha }}
           docker tag politeauthority/pignus-api-dev:${{ github.sha }} politeauthority/pignus-api-dev:${{ github.ref_name }}
+          docker tag politeauthority/pignus-api-dev:${{ github.sha }} politeauthority/pignus-api-dev:${{ secrets.PIGNUS_VERSION }}-{{ github.ref_name }}
 
       - name: Push Container
         run: |
           docker push politeauthority/pignus-api-dev:${{ github.sha }}
           docker push politeauthority/pignus-api-dev:${{ github.ref_name }}
+          docker push politeauthority/pignus-api-dev:${{ secrets.PIGNUS_VERSION }}-{{ github.ref_name }}
 
   deploy-test:
     runs-on: self-hosted
@@ -113,6 +116,6 @@ jobs:
         PIGNUS_API_KEY: "${{ secrets.REGRESSION_PIGNUS_API_KEY }}"
     steps:
       - name: Regression Pignus-Api
-        run: cd /tests && pytest
+        run: cd /tests/regression && pytest
 
 # End File: pignus/.github/workflows/pignus-api.yaml
