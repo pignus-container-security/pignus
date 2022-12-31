@@ -4,7 +4,7 @@
 image:
   repository: politeauthority/pignus-api
   pullPolicy: Always
-  tag: "0.0.1-staging"
+
 
 service:
   type: LoadBalancer
