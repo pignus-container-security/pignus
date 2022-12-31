@@ -4,6 +4,7 @@ Creates all the SQL models needed for Pignus.
 """
 import os
 
+from pignus_api.collects.users import Users
 from pignus_api.models.option import Option
 from pignus_api.models.scanner import Scanner
 from pignus_api.models.migration import Migration as MigrationModel
