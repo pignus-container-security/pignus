@@ -1,5 +1,5 @@
-"""Regression Test CTRL Images
-Checks that all routes on /images are working properly.
+"""Regression Test CTRL Users
+Checks that all routes on /users are working properly.
 
 """
 
@@ -16,24 +16,26 @@ HEADERS = {
 }
 
 
-class TestApiImages:
+class TestApiUsers:
 
     def test__images_get(self):
-        """Tests the Images collections through the Pignus Api
-        GET /images
+        """Tests the Users collections through the Pignus Api
+        GET /users
         """
         request_args = {
             "headers": HEADERS,
             "method": "GET",
-            "url": "%s/images" % PIGNUS_API_URL,
+            "url": "%s/users" % PIGNUS_API_URL,
         }
 
         response = requests.request(**request_args)
         assert response.status_code == 200
         response_json = response.json()
-        assert response_json["object_type"] == "image"
         assert "objects" in response_json
         assert "object_count" in response_json
 
+        assert response_json["object_type"] == "user"
+        assert response_json["object_count"] > 0
 
-# End File: pignus/tests/regression/pignus_api/test_ctrl_images.py
+
+# End File: pignus/tests/regression/pignus_api/test_ctrl_users.py

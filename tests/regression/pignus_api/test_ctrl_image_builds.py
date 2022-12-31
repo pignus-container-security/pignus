@@ -1,5 +1,5 @@
-"""Regression Test CTRL Images
-Checks that all routes on /images are working properly.
+"""Regression Test CTRL Image Builds
+Checks that all routes on /image-builds are working properly.
 
 """
 
@@ -16,24 +16,25 @@ HEADERS = {
 }
 
 
-class TestApiImages:
+class TestApiImageBuilds:
 
-    def test__images_get(self):
-        """Tests the Images collections through the Pignus Api
-        GET /images
+    def test__image_builds_get(self):
+        """Tests the ImageBuilds collections through the Pignus Api
+        GET /image-builds
         """
         request_args = {
             "headers": HEADERS,
             "method": "GET",
-            "url": "%s/images" % PIGNUS_API_URL,
+            "url": "%s/image-builds" % PIGNUS_API_URL,
         }
 
         response = requests.request(**request_args)
         assert response.status_code == 200
         response_json = response.json()
-        assert response_json["object_type"] == "image"
         assert "objects" in response_json
         assert "object_count" in response_json
 
+        assert response_json["object_type"] == "image_builds"
 
-# End File: pignus/tests/regression/pignus_api/test_ctrl_images.py
+
+# End File: pignus/tests/regression/pignus_api/test_ctrl_image_builds.py
