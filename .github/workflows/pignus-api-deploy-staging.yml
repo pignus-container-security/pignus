@@ -33,7 +33,7 @@ jobs:
       - name: Push Container
         run: |
           docker push politeauthority/pignus-api:${{ github.sha }}
-          docker push politeauthority/pignus-api:{{ secrets.PIGNUS_VERSION }}-staging
+          docker push politeauthority/pignus-api:${{ secrets.PIGNUS_VERSION }}-staging
 
   deploy-staging:
     runs-on: self-hosted
