@@ -101,14 +101,14 @@ jobs:
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
-      - name: Regression Test
-        uses: actions/checkout@v3
-        container:
-          image: politeauthority/pignus-test:latest
-          env:
-            PIGNUS_API_URL: "${{ secrets.REGRESSION_PIGNUS_API_URL }}"
-            PIGNUS_API_CLIENT_ID: "${{ secrets.REGRESSION_PIGNUS_API_CLIENT_ID }}"
-            PIGNUS_API_KEY: "${{ secrets.REGRESSION_PIGNUS_API_KEY }}"
-          run: cd /tests/regression/ && pytest
+      # - name: Regression Test
+      #   uses: actions/checkout@v3
+      #   container:
+      #     image: politeauthority/pignus-test:latest
+      #     env:
+      #       PIGNUS_API_URL: "${{ secrets.REGRESSION_PIGNUS_API_URL }}"
+      #       PIGNUS_API_CLIENT_ID: "${{ secrets.REGRESSION_PIGNUS_API_CLIENT_ID }}"
+      #       PIGNUS_API_KEY: "${{ secrets.REGRESSION_PIGNUS_API_KEY }}"
+      #     run: cd /tests/regression/ && pytest
 
 # End File: pignus/.github/workflows/pignus-api.yaml
