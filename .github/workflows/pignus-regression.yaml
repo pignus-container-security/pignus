@@ -25,7 +25,6 @@ jobs:
         PIGNUS_API_KEY: "${{ secrets.REGRESSION_PIGNUS_API_KEY }}"
     steps:
       - name: Check for dockerenv file
-        uses: actions/setup-python@v3
         run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
 
 # End File: pignus/.github/workflows/pignus-api.yaml
