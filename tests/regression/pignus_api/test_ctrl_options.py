@@ -36,4 +36,4 @@ class TestOptions:
         assert "object_count" in response_json
 
 
-# End File: pignus/tests/regression/pignus_api/test_ctrl_image_options.py
+# End File: pignus/tests/regression/pignus_api/test_ctrl_options.py
