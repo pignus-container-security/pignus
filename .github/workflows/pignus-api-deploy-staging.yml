@@ -1,0 +1,66 @@
+# Pignus Api Deploy Staging
+
+---
+
+name: Pignus-Api-Deploy-Staging
+
+on:
+  push:
+    branches: ["staging"]
+
+jobs:
+  build-docker:
+    runs-on: self-hosted
+    needs: build-python
+    strategy:
+      fail-fast: true
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build Dev Container
+        run: |
+          cp -r ./src ./docker/pignus-api
+          cp -r ./tests ./docker/pignus-api
+          cd ./docker/pignus-api/
+          docker build . -t politeauthority/pignus-api:${{ github.sha }}
+          docker tag politeauthority/pignus-api:${{ github.sha }} politeauthority/pignus-api:${{ github.ref_name }}
+          docker tag politeauthority/pignus-api:${{ github.sha }} politeauthority/pignus-api:${{ secrets.PIGNUS_VERSION }}-{{ github.ref_name }}
+
+      - name: Push Container
+        run: |
+          docker push politeauthority/pignus-api:${{ github.sha }}
+          docker push politeauthority/pignus-api:${{ github.ref_name }}
+          docker push politeauthority/pignus-api:${{ secrets.PIGNUS_VERSION }}-{{ github.ref_name }}
+
+  deploy-test:
+    runs-on: self-hosted
+    needs: build-docker
+    strategy:
+      fail-fast: true
+    
+    steps:
+      - uses: 'glopezep/helm@v1.7.1'
+        with:
+          release: 'pignus-staging'
+          namespace: 'pignus-staging'
+          chart: 'helm/pignus-api'
+          helm: 'helm3'
+          token: '${{ github.token }}'
+          atomic: false
+          value-files: '["helm/pignus-api/values.yaml", "helm/pignus-api/values-staging.yaml"]'
+          values: |
+            {
+              "image": {
+                "tag": "${{ github.sha }}"
+              }
+            }
+        env:
+          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
+
+# End File: pignus/.github/workflows/pignus-api.yaml
