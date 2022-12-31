@@ -5,6 +5,7 @@ helpers/
 
 docker/pignus-api/src
 docker/pignus-api/tests
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

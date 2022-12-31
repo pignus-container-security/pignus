@@ -1,3 +1,3 @@
 # Install Mysql Through Helm
-helm install my-mysql-operator mysql-operator/mysql-operator \
-   --namespace mysql-operator --create-namespace
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm upgrade --install mysql --namespace=pignus-cicd bitnami/mysql

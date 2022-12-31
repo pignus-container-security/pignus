@@ -85,5 +85,14 @@ class User(BaseEntityMeta):
         super(User, self).delete()
         return True
 
+    def disable(self) -> bool:
+        """Disables a User by disabling all their ApiKeys."""
+        api_keys = ApiKeys().get_api_keys_for_user()
+        for api_key in api_keys:
+            if api_key.enabled:
+                api_key.enabled = False
+                api_key.save()
+        return True
+
 
 # End File: pignus/src/pignus_api/models/user.py

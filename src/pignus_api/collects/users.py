@@ -18,4 +18,18 @@ class Users(BaseEntityMetas):
             "op": "DESC"
         }
 
+    def get_pignus_admin_users(self):
+        """Gets all pigus admin users if any."""
+        sql = """
+            SELECT *
+            FROM `users`
+            WHERE
+                `role_id` = 1 AND
+                `name` = "pignus-admin";
+        """
+        self.cursor.execute(sql)
+        raws = self.cursor.fetchall()
+        users = self.build_from_lists(raws)
+        return users
+
 # End File: pignus/src/pignus_api/collects/users.py

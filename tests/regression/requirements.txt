@@ -1,0 +1,5 @@
+flake8==5.0.4
+Flask-DebugToolbar==0.13.1
+ipdb==0.13.9
+pytest==7.0.1
+pytest-cov==3.0.0

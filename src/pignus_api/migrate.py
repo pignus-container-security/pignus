@@ -7,7 +7,6 @@ import os
 from pignus_api.models.option import Option
 from pignus_api.models.scanner import Scanner
 from pignus_api.models.migration import Migration as MigrationModel
-
 from pignus_api.utils import auth
 from pignus_api.utils import glow
 from pignus_api.utils import misc_server
@@ -30,8 +29,6 @@ class Migrate:
     def run(self):
         """Run all initial DB processes. So far that includes
             - Creating the database
-            - Creating initial RSA key pair in SSM
-            - Rotating an existing RSA key pairs stored in SSM
             - Running all migrations
             - Creating default Options
             - Creating default Scanners
@@ -201,7 +198,7 @@ class Migrate:
         return True
 
     def create_scanners(self) -> bool:
-        """Create the default scanners. """
+        """Create the default scanners."""
         log.info("Creating Scanners")
         scanners = {
             "Trivy": {
@@ -248,6 +245,17 @@ class Migrate:
             GRANT ALL PRIVILEGES ON %(pignus_db_name)s . * TO '%(pignus_app_user)s'@'%'; """
         print(sql)
 
+    def create_new_admin_user(self):
+        """Method for handling a locked out admin. Generating a new user, client_id, and api_key.
+        """
+        users = Users().get_pignus_admin_users()
+        new_admin = User()
+        if len(users) > 0:
+            for user in users:
+                user.disable()
+        self.create_user()
+        return True
+
     # def create_test_data(self) -> bool:
     #     """Creates some basic data for testing."""
     #     fakes = [
@@ -272,6 +280,10 @@ class Migrate:
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "password-reset":
+        Migrate().create_new_admin_user()
+        exit()
+
     Migrate().run()
 
 
