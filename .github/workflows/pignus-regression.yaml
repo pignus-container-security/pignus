@@ -1,10 +1,5 @@
-# Pignus Api
-# This workflow controls the following
-# - Builds the Python Pignus package
-# - Lints the Python Pignus package
-# - Tests the Python Pignus package
-# - Builds the Pignus-Api Docker container
-# - 
+# Pignus Regression
+
 
 ---
 
@@ -15,16 +10,16 @@ on:
     branches: "regression-test"
 
 jobs:
-  container-test-job:
+  run-regression:
     runs-on: self-hosted
     container:
-      image: alpine:3.10
+      image: politeauthority/pignus-test:latest
       env:
         PIGNUS_API_URL: "${{ secrets.REGRESSION_PIGNUS_API_URL }}"
         PIGNUS_API_CLIENT_ID: "${{ secrets.REGRESSION_PIGNUS_API_CLIENT_ID }}"
         PIGNUS_API_KEY: "${{ secrets.REGRESSION_PIGNUS_API_KEY }}"
     steps:
       - name: Check for dockerenv file
-        run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
+        run: ls /tests
 
-# End File: pignus/.github/workflows/pignus-api.yaml
+# End File: pignus/.github/workflows/pignus-regression.yaml
