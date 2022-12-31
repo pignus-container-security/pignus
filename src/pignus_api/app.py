@@ -26,14 +26,16 @@ app.config.update(DEBUG=True)
 
 def register_blueprints(app: Flask):
     """Connect the blueprints to the router."""
-    app.register_blueprint(ctrl_image)
-    app.register_blueprint(ctrl_image_build)
-    app.register_blueprint(ctrl_user)
     app.register_blueprint(ctrl_api_keys)
     app.register_blueprint(ctrl_images)
     app.register_blueprint(ctrl_image_builds)
     app.register_blueprint(ctrl_options)
     app.register_blueprint(ctrl_users)
+
+    app.register_blueprint(ctrl_image)
+    app.register_blueprint(ctrl_image_build)
+    app.register_blueprint(ctrl_user)
+    
     return True
 
 
