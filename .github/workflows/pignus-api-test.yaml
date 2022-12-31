@@ -1,18 +1,19 @@
-# Pignus Api
+# Pignus Api Test
 # This workflow controls the following
 # - Builds the Python Pignus package
 # - Lints the Python Pignus package
 # - Tests the Python Pignus package
-# - Builds the Pignus-Api Docker container
-# - 
+# - Builds the Pignus-Api-Dev Docker container
+# - Deploys the Pignus-Api-Dev container to the pignus-cicd K8s namespace
+# - Runs the Pignus regression tests against the pignus-cicd K8s namespace
 
 ---
 
-name: Pignus-Api
+name: Pignus-Api-Test
 
 on:
   pull_request:
-    branches: ["main", "staging", "develop"]
+    branches: "staging"
 
 jobs:
   build-python:
@@ -64,25 +65,24 @@ jobs:
 
       - name: Build Container
         run: |
-          cp -r ./src ./docker/pignus-api
-          cd ./docker/pignus-api/
-          docker build . -t politeauthority/pignus-api:${{ github.sha }}
-          docker tag politeauthority/pignus-api:${{ github.sha }} politeauthority/pignus-api:${{ github.ref_name }}
+          cp -r ./src ./docker/pignus-api-dev
+          cp -r ./tests ./docker/pignus-api-dev
+          cd ./docker/pignus-api-dev/
+          docker build . -t politeauthority/pignus-api-dev:${{ github.sha }}
 
       - name: Push Container
         run: |
-          docker push politeauthority/pignus-api:${{ github.sha }}
-          docker push politeauthority/pignus-api:${{ github.ref_name }}
+          docker push politeauthority/pignus-api-dev:${{ github.sha }}
 
-  regression-test:
+  deploy-test:
     runs-on: self-hosted
     needs: build-docker
     strategy:
       fail-fast: true
     
     steps:
-      - uses: actions/checkout@v3
-        uses: 'glopezep/helm@v1.7.1'
+      - uses: actions/checkout@v1
+      - uses: 'glopezep/helm@v1.7.1'
         with:
           release: 'pignus-cicd'
           namespace: 'pignus-cicd'
@@ -100,12 +100,17 @@ jobs:
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
-      - name: Regression Test
-        container:
-        image: politeauthority/pignus-test:latest
-        env:
-          PIGNUS_API_URL: "192.168.50.83"
-          PIGNUS_API_CLIENT_ID: "test"
-        run: cd /tests/regression/ && pytest
+  run-regression:
+    runs-on: self-hosted
+    needs: deploy-test
+    container:
+      image: politeauthority/pignus-api-dev:${{ github.sha }}
+      env:
+        PIGNUS_API_URL: "${{ secrets.REGRESSION_PIGNUS_API_URL }}"
+        PIGNUS_API_CLIENT_ID: "${{ secrets.REGRESSION_PIGNUS_API_CLIENT_ID }}"
+        PIGNUS_API_KEY: "${{ secrets.REGRESSION_PIGNUS_API_KEY }}"
+    steps:
+      - name: Regression Pignus-Api
+        run: cd /tests/regression && pytest
 
-# End File: pignus/.github/workflows/pignus-api.yaml
+# End File: pignus/.github/workflows/pignus-api-test.yaml

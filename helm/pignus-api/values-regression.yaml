@@ -2,7 +2,7 @@
 # Regression values
 
 image:
-  repository: politeauthority/pignus-api
+  repository: politeauthority/pignus-api-dev
   pullPolicy: Always
 
 service:

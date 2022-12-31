@@ -3,6 +3,7 @@ Pignus-Sentry runs all the backend operations of container syncing and scanning.
 
 """
 from pignus_client import PignusClient
+from pignus_api.models.image_build import ImageBuild
 from pignus_shared.utils import log
 
 
@@ -27,7 +28,6 @@ class PignusSentry:
         """Get ImageBuilds ready for scan."""
         request = self.pigus_api.image_builds_get_for_scan()
         requset_data = request.json()
-        import ipdb; ipdb.set_trace()
         log.info("Found %s ImageBuilds for scan" % requset_data["object_count"])
         log.info("ImagesBuilds")
         return requset_data["objects"]
