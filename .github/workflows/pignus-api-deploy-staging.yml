@@ -59,6 +59,6 @@ jobs:
               }
             }
         env:
-          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
+          KUBECONFIG_FILE: '${{ secrets.KUBECOKUBECONFIG_STAGINGNFIG }}'
 
 # End File: pignus/.github/workflows/pignus-api-deploy-staging.yaml
