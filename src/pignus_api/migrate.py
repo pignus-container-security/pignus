@@ -29,8 +29,6 @@ class Migrate:
     def run(self):
         """Run all initial DB processes. So far that includes
             - Creating the database
-            - Creating initial RSA key pair in SSM
-            - Rotating an existing RSA key pairs stored in SSM
             - Running all migrations
             - Creating default Options
             - Creating default Scanners
@@ -257,9 +255,6 @@ class Migrate:
                 user.disable()
         self.create_user()
         return True
-
-
-
 
     # def create_test_data(self) -> bool:
     #     """Creates some basic data for testing."""
