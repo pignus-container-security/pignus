@@ -28,14 +28,12 @@ jobs:
           cp -r ./tests ./docker/pignus-api
           cd ./docker/pignus-api/
           docker build . -t politeauthority/pignus-api:${{ github.sha }}
-          docker tag politeauthority/pignus-api:${{ github.sha }} politeauthority/pignus-api:${{ github.ref_name }}
-          docker tag politeauthority/pignus-api:${{ github.sha }} politeauthority/pignus-api:${{ secrets.PIGNUS_VERSION }}-{{ github.ref_name }}
+          docker tag politeauthority/pignus-api:${{ github.sha }} politeauthority/pignus-api:${{ secrets.PIGNUS_VERSION }}-staging
 
       - name: Push Container
         run: |
           docker push politeauthority/pignus-api:${{ github.sha }}
-          docker push politeauthority/pignus-api:${{ github.ref_name }}
-          docker push politeauthority/pignus-api:${{ secrets.PIGNUS_VERSION }}-{{ github.ref_name }}
+          docker push politeauthority/pignus-api:{{ secrets.PIGNUS_VERSION }}-staging
 
   deploy-staging:
     runs-on: self-hosted
@@ -57,7 +55,7 @@ jobs:
           values: |
             {
               "image": {
-                "tag": "${{ github.sha }}"
+                "tag": : "{{ secrets.PIGNUS_VERSION }}-staging"
               }
             }
         env:
