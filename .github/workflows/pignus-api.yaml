@@ -68,13 +68,13 @@ jobs:
         run: |
           cp -r ./src ./docker/pignus-api
           cd ./docker/pignus-api/
-          docker build . -t politeauthority/pignus-api:${{ github.sha }}
-          docker tag politeauthority/pignus-api:${{ github.sha }} politeauthority/pignus-api:${{ github.ref_name }}
+          docker build . -t politeauthority/pignus-api-dev:${{ github.sha }}
+          docker tag politeauthority/pignus-api-dev:${{ github.sha }} politeauthority/pignus-api-dev:${{ github.ref_name }}
 
       - name: Push Container
         run: |
-          docker push politeauthority/pignus-api:${{ github.sha }}
-          docker push politeauthority/pignus-api:${{ github.ref_name }}
+          docker push politeauthority/pignus-api-dev:${{ github.sha }}
+          docker push politeauthority/pignus-api-dev:${{ github.ref_name }}
 
   deploy-test:
     runs-on: self-hosted
@@ -103,8 +103,9 @@ jobs:
 
   run-regression:
     runs-on: self-hosted
+    needs: run-regression
     container:
-      image: politeauthority/pignus-test:latest
+      image: politeauthority/pignus-api-dev:${{ github.sha }}
       env:
         PIGNUS_API_URL: "${{ secrets.REGRESSION_PIGNUS_API_URL }}"
         PIGNUS_API_CLIENT_ID: "${{ secrets.REGRESSION_PIGNUS_API_CLIENT_ID }}"
