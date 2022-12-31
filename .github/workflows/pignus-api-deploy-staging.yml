@@ -6,12 +6,11 @@ name: Pignus-Api-Deploy-Staging
 
 on:
   push:
-    branches: ["staging"]
+    branches: ["staging", "pignus-api-container"]
 
 jobs:
   build-docker:
     runs-on: self-hosted
-    needs: build-python
     strategy:
       fail-fast: true
 
@@ -23,7 +22,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build Dev Container
+      - name: Build Container
         run: |
           cp -r ./src ./docker/pignus-api
           cp -r ./tests ./docker/pignus-api
