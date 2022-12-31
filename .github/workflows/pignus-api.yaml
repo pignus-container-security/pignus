@@ -103,7 +103,7 @@ jobs:
 
   run-regression:
     runs-on: self-hosted
-    needs: run-regression
+    needs: deploy-test
     container:
       image: politeauthority/pignus-api-dev:${{ github.sha }}
       env:
