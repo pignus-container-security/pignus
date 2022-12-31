@@ -38,13 +38,14 @@ jobs:
           docker push politeauthority/pignus-api:${{ github.ref_name }}
           docker push politeauthority/pignus-api:${{ secrets.PIGNUS_VERSION }}-{{ github.ref_name }}
 
-  deploy-test:
+  deploy-staging:
     runs-on: self-hosted
     needs: build-docker
     strategy:
       fail-fast: true
     
     steps:
+      - uses: actions/checkout@v1
       - uses: 'glopezep/helm@v1.7.1'
         with:
           release: 'pignus-staging'
@@ -63,4 +64,4 @@ jobs:
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
-# End File: pignus/.github/workflows/pignus-api.yaml
+# End File: pignus/.github/workflows/pignus-api-deploy-staging.yaml

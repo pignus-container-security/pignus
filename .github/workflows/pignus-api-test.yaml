@@ -3,16 +3,15 @@
 # - Builds the Python Pignus package
 # - Lints the Python Pignus package
 # - Tests the Python Pignus package
-# - Builds the Pignus-Api Docker container
-# - 
+# - Builds the Pignus-Api-Dev Docker container
+# - Deploys the Pignus-Api-Dev container to the pignus-cicd K8s namespace
+# - Runs the Pignus regression tests against the pignus-cicd K8s namespace
 
 ---
 
 name: Pignus-Api-Test
 
 on:
-  push:
-    branches: ["regression-test"]
   pull_request:
     branches: "staging"
 
@@ -116,4 +115,4 @@ jobs:
       - name: Regression Pignus-Api
         run: cd /tests/regression && pytest
 
-# End File: pignus/.github/workflows/pignus-api.yaml
+# End File: pignus/.github/workflows/pignus-api-test.yaml
