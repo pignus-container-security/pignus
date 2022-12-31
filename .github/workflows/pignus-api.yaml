@@ -77,6 +77,7 @@ jobs:
           docker push politeauthority/pignus-api-dev:${{ github.ref_name }}
 
   deploy-test:
+    - uses: actions/checkout@v1
     runs-on: self-hosted
     needs: build-docker
     strategy:
