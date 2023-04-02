@@ -1,0 +1,40 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  PIGNUS_DIR: "/Users/alix/Programming/repos/pignus"
+  PIGNUS_TAG: "0.0.1"
+  DATA_DIR: "/Users/alix/Programming/data/"
+
+tasks:
+  dev-build:
+    cmds:
+      - cp -r {{.PIGNUS_DIR}}/src {{.PIGNUS_DIR}}/docker/pignus-api-dev/
+      - rm -rf {{.PIGNUS_DIR}}/docker/pignus-api-dev/src/build
+      - rm -rf {{.PIGNUS_DIR}}/docker/pignus-api-dev/src/dist
+      - rm -rf {{.PIGNUS_DIR}}/docker/pignus-api/src/pignus.egg-info
+      - echo "{{.PIGNUS_DIR}}/docker/pignus-api-dev"
+      - cp -r {{.PIGNUS_DIR}}/tests {{.PIGNUS_DIR}}/docker/pignus-api-dev/
+      - docker build -t politeauthority/pignus-api-dev:{{.PIGNUS_TAG}} {{.PIGNUS_DIR}}/docker/pignus-api-dev
+      - rm -rf {{.PIGNUS_DIR}}/docker/pignus-api-dev/src
+      - rm -rf {{.PIGNUS_DIR}}/docker/pignus-api-dev/tests
+      - echo "Completed build politeauthority/pignus-api-dev:{{.PIGNUS_TAG}}"
+    silent: false
+  dev-run:
+    cmds:
+      - mkdir -p {{.DATA_DIR}}/pignus-mysql
+      - docker run --name="pignus-mysql" -d -v {{.DATA_DIR}}}/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD="${PIGNUS_DB_PASS}" -e MYSQL_USER="${PIGNUS_USER}" -e MYSQL_PASSWORD="${PIGNUS_DB_PASS}" -p 3306:3306 --net=pignus mysql
+      - docker run --name pignus-api-dev -d -v {{.PIGNUS_DIR}}/src:/app -e PIGNUS_DB_USER=root -e PIGNUS_DB_PASS="${PIGNUS_DB_PASS}" -p 5001:5001 --net=pignus politeauthority/pignus-api-dev:{{.PIGNUS_TAG}}
+  dev-destroy:
+      - docker rm -f pignus-mysql
+      # - rm -rf {{.DATA_DIR}}/pignus-mysql
+      - docker rm -f pignus-api-dev
+  dev-start:
+    cmds:
+      - docker start pignus-api-dev
+      - docker start pignus-mysql
+  dev-stop:
+    cmds:
+      - docker stop pignus-api-dev
+      - docker stop pignus-mysql
