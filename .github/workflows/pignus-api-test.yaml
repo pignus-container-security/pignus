@@ -77,14 +77,13 @@ jobs:
   deploy-test:
     runs-on: self-hosted
     needs: build-docker
+    container:
+      image: politeauthority/pignus-cicd:latest
     strategy:
       fail-fast: true
-    
     steps:
       - uses: actions/checkout@v1
-      - container:
-          image: politeauthority/pignus-cicd:latest
-        run: |
+      - run: |
           cd helm/pigus-api
           helm install --upgrade pignus-cicd -f values.yaml -f values-regression.yaml
         env:
