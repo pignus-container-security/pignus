@@ -70,8 +70,7 @@ jobs:
           cp -r ./src ./docker/pignus-api-dev
           cp -r ./tests ./docker/pignus-api-dev
           cd ./docker/pignus-api-dev/
-          echo "$(ls)"
-          docker build . -t politeauthority/pignus-api-dev:${{ github.sha }}
+          docker build docker/pignus-api-dev/ -t politeauthority/pignus-api-dev:${{ github.sha }}
 
       - name: Push Container
         run: |
