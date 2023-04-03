@@ -71,6 +71,7 @@ jobs:
           cp -r ./tests ./docker/pignus-api-dev
           cd ./docker/pignus-api-dev/
           docker build docker/pignus-api-dev/ -t politeauthority/pignus-api-dev:${{ github.sha }}
+          echo "**Built Image:** politeauthority/pignus-api-dev:${{ github.sha }}" >> GITHUB_SUMMARY
 
       - name: Push Container
         run: |
