@@ -65,6 +65,8 @@ jobs:
 
       - name: Build Container
         run: |
+          echo "ALIX-DEBUG"
+          echo "$(ls)"
           cp -r ./src ./docker/pignus-api-dev
           cp -r ./tests ./docker/pignus-api-dev
           cd ./docker/pignus-api-dev/
