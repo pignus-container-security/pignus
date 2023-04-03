@@ -82,21 +82,11 @@ jobs:
     
     steps:
       - uses: actions/checkout@v1
-      - uses: 'glopezep/helm@v1.7.1'
-        with:
-          release: 'pignus-cicd'
-          namespace: 'pignus-cicd'
-          chart: 'helm/pignus-api'
-          helm: 'helm3'
-          token: '${{ github.token }}'
-          atomic: false
-          value-files: '["helm/pignus-api/values.yaml", "helm/pignus-api/values-regression.yaml"]'
-          values: |
-            {
-              "image": {
-                "tag": "${{ github.sha }}"
-              }
-            }
+      - container:
+          image: politeauthority/pignus-cicd:latest
+          run: |
+            cd helm/pigus-api
+            helm install --upgrade pignus-cicd -f values.yaml -f values-regression.yaml
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
