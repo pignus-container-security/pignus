@@ -26,7 +26,7 @@ RUN cd /app && python3 setup.py install
 
 CMD cd /app/pignus_api && gunicorn app:app --bind 0.0.0.0:5001
 
-docker run --name pignus-api-dev \
+RUN run --name pignus-api-dev \
     -d -v /Users/alix/Programming/repos/pignus/src:/app \
     -e PIGNUS_DB_USER=root \
     -e PIGNUS_DB_PASS="${PIGNUS_DB_PASS}" -p 5001:5001 --net=pignus politeauthority/pignus-api-dev:0.0.1

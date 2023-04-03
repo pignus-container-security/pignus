@@ -97,7 +97,7 @@ class Option(Base):
 
     def set_default(self, the_option: dict) -> bool:
         """Set a default value for an option, if the option is already set, return False otherwise
-           return True
+        return True
         """
         option_name = the_option['name']
         self.get_by_name(option_name)
@@ -130,6 +130,5 @@ class Option(Base):
                 return ",".join(val)
         else:
             return val
-
 
 # End File: pignus/src/pignus_api/models/option.py

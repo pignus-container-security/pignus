@@ -65,10 +65,13 @@ jobs:
 
       - name: Build Container
         run: |
+          echo "ALIX-DEBUG"
+          echo "$(ls)"
           cp -r ./src ./docker/pignus-api-dev
           cp -r ./tests ./docker/pignus-api-dev
           cd ./docker/pignus-api-dev/
-          docker build . -t politeauthority/pignus-api-dev:${{ github.sha }}
+          docker build docker/pignus-api-dev/ -t politeauthority/pignus-api-dev:${{ github.sha }}
+          echo "**Built Image:** politeauthority/pignus-api-dev:${{ github.sha }}" >> GITHUB_SUMMARY
 
       - name: Push Container
         run: |
@@ -77,26 +80,15 @@ jobs:
   deploy-test:
     runs-on: self-hosted
     needs: build-docker
+    container:
+      image: politeauthority/pignus-cicd:latest
     strategy:
       fail-fast: true
-    
     steps:
       - uses: actions/checkout@v1
-      - uses: 'glopezep/helm@v1.7.1'
-        with:
-          release: 'pignus-cicd'
-          namespace: 'pignus-cicd'
-          chart: 'helm/pignus-api'
-          helm: 'helm3'
-          token: '${{ github.token }}'
-          atomic: false
-          value-files: '["helm/pignus-api/values.yaml", "helm/pignus-api/values-regression.yaml"]'
-          values: |
-            {
-              "image": {
-                "tag": "${{ github.sha }}"
-              }
-            }
+      - run: |
+          cd helm/pigus-api
+          helm install --upgrade pignus-cicd -f values.yaml -f values-regression.yaml
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
