@@ -84,9 +84,9 @@ jobs:
       - uses: actions/checkout@v1
       - container:
           image: politeauthority/pignus-cicd:latest
-          run: |
-            cd helm/pigus-api
-            helm install --upgrade pignus-cicd -f values.yaml -f values-regression.yaml
+        run: |
+          cd helm/pigus-api
+          helm install --upgrade pignus-cicd -f values.yaml -f values-regression.yaml
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 

@@ -1,0 +1,37 @@
+# Pignus Api Deploy Prod
+
+---
+
+name: Pignus-Api-Deploy-Prod
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy-prod:
+    runs-on: self-hosted
+    strategy:
+      fail-fast: true
+    
+    steps:
+      - uses: actions/checkout@v1
+      - uses: 'glopezep/helm@v1.7.1'
+        with:
+          release: 'pignus'
+          namespace: 'pignus'
+          chart: 'helm/pignus-api'
+          helm: 'helm3'
+          token: '${{ github.token }}'
+          atomic: false
+          value-files: '["helm/pignus-api/values.yaml", "helm/pignus-api/values-prod.yaml"]'
+          values: |
+            {
+              "image": {
+                "tag": "${{ github.sha }}"
+              }
+            }
+        env:
+          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
+
+# End File: pignus/.github/workflows/pignus-api-deploy-prod.yaml
